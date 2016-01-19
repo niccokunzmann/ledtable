@@ -17,7 +17,6 @@ void LEDTable::show(){
   strip.show();
 } 
 
-
 void LEDTable::fill(Color color) 
 {
   for (int i = width() * height() - 1; i >= 0; i--) {
@@ -31,6 +30,22 @@ void LEDTable::fill(int x, int y, Color color)
   if ( x < 0 || x >= width() || y < 0 || y >= height()) return;
   strip.setPixelColor(x + y * width(), color);
 }
+
+void LEDTable::fill(int x1, int y1, int x2, int y2, Color color) 
+{
+  int x_min = min(x1, x2);
+  int x_max = max(x1, x2);
+  int y_min = min(y1, y2);
+  int y_max = max(y1, y2);
+  for (int x = x_min; x < x_max; x++) 
+  {
+    for (int y = y_min; y < y_max; y++)
+    {
+      fill(x, y, color);
+    }
+  }
+}
+
 
 void LEDTable::print(Text* text, int x, int y, Color text_color, Color background_color) {
   Serial.print("x2: "); Serial.println(x);
