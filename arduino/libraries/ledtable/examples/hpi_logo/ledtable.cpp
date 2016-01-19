@@ -17,10 +17,27 @@ void LEDTable::show(){
   strip.show();
 } 
 
+void LEDTable::updateColor(uint16_t index, Color color)
+{
+  if (color == color_transparent) return;
+  if (!(color & 0xff000000)) 
+  {
+    strip.setPixelColor(index, color);
+    return;
+  }
+  // mixing different transparencies
+  uint16_t transparency = color >> 24;
+  Color color0 = strip.getPixelColor(index);
+  uint16_t red = RED(color) * (256 - transparency) + RED(color0) * transparency;
+  uint16_t green = GREEN(color) * (256 - transparency) + GREEN(color0) * transparency;
+  uint16_t blue = BLUE(color) * (256 - transparency) + BLUE(color0) * transparency;
+  strip.setPixelColor(index, RGB(red, green, blue));
+}
+
 void LEDTable::fill(Color color) 
 {
   for (int i = width() * height() - 1; i >= 0; i--) {
-    strip.setPixelColor(i, color);
+    updateColor(i, color);
   }
 }
 
@@ -28,7 +45,7 @@ void LEDTable::fill(int x, int y, Color color)
 {
   this->pixelorder(this, &x, &y);
   if ( x < 0 || x >= width() || y < 0 || y >= height()) return;
-  strip.setPixelColor(x + y * width(), color);
+  updateColor(x + y * width(), color);
 }
 
 void LEDTable::fill(int x1, int y1, int x2, int y2, Color color) 

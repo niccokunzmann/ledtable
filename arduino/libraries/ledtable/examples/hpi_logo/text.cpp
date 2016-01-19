@@ -152,7 +152,8 @@ uint32_t characterToPixels[LETTERS] = {
     0b100010001000001000100 /*  '~'   */,
 };
 
-Text::Text(const char* text, Color text_color, Color background_color) : _text(text), _text_color(text_color), _background_color(background_color)
+Text::Text(const char* text, Color color, Color background_color) : 
+    _text(text), _color(color), _background_color(background_color)
 {
   _width = -1;
   _height = -1;
@@ -193,7 +194,7 @@ const char* Text::text()
 void Text::printOn(LEDTable* ledtable, int x0, int y0, Color text_color, Color background_color)
 {
   if (text_color == color_default) {
-    text_color = this->text_color();
+    text_color = this->color();
   }
   if (background_color == color_default) {
     background_color = this->background_color();
@@ -250,14 +251,14 @@ void Text::printOn(LEDTable* ledtable, int x0, int y0, Color text_color, Color b
   if (_width > 0) _height = CHARACTER_HEIGHT + y - y0;
 }
 
-Color Text::text_color()
+Color Text::color()
 {
-  return _text_color;
+  return _color;
 };
 
-void Text::text_color(Color text_color)
+void Text::color(Color color)
 {
-  _text_color = text_color;
+  _color = color;
 };
 
 Color Text::background_color()

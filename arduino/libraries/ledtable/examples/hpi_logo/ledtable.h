@@ -10,9 +10,10 @@ typedef uint32_t Color;
 
 class LEDTable;
 
+// function pointers http://www.cprogramming.com/tutorial/function-pointers.html
 typedef void (*PixelOrder)(LEDTable*,int*,int*);
 
-namespace pixelorder {
+// pixel order
   // x=x y=y
   void id(LEDTable* ledtable, int*x, int*y);
 
@@ -26,16 +27,54 @@ namespace pixelorder {
   void rotate_90(LEDTable* ledtable, int*x, int*y);
   void rotate_180(LEDTable* ledtable, int*x, int*y);
   void rotate_270(LEDTable* ledtable, int*x, int*y);
-  
-  // this allows pixel orders such as circles or if you glued something wrongly.
+
+
+template <PixelOrder o1> 
+void PIXELORDER(LEDTable* ledtable, int*x, int*y) 
+{
+  o1(ledtable, x, y);
+};
+template <PixelOrder o1, PixelOrder o2> 
+void PIXELORDER(LEDTable* ledtable, int*x, int*y) 
+{
+  o1(ledtable, x, y);
+  o2(ledtable, x, y);
+};
+template <PixelOrder o1, PixelOrder o2, PixelOrder o3> 
+void PIXELORDER(LEDTable* ledtable, int*x, int*y) 
+{
+  o1(ledtable, x, y);
+  o2(ledtable, x, y);
+  o3(ledtable, x, y);
+};
+template <PixelOrder o1, PixelOrder o2, PixelOrder o3, PixelOrder o4> 
+void PIXELORDER(LEDTable* ledtable, int*x, int*y) 
+{
+  o1(ledtable, x, y);
+  o2(ledtable, x, y);
+  o3(ledtable, x, y);
+  o4(ledtable, x, y);
+};
+template <PixelOrder o1, PixelOrder o2, PixelOrder o3, PixelOrder o4, PixelOrder o5> 
+void PIXELORDER(LEDTable* ledtable, int*x, int*y) 
+{
+  o1(ledtable, x, y);
+  o2(ledtable, x, y);
+  o3(ledtable, x, y);
+  o4(ledtable, x, y);
+  o5(ledtable, x, y);
 };
 
-#define DEFINE_PIXELORDER(name, o1, o2, o3, o4, o5) function name(LEDTable* ledtable, int*x, int*y) { o1( ledtable, x, y); o2( ledtable, x, y); o3( ledtable, x, y); o4( ledtable, x, y); o5( ledtable, x, y); };
-#define DEFINE_PIXELORDER(name, o1, o2, o3, o4) function name(LEDTable* ledtable, int*x, int*y) { o1( ledtable, x, y); o2( ledtable, x, y); o3( ledtable, x, y); o4( ledtable, x, y); };
-#define DEFINE_PIXELORDER(name, o1, o2, o3) function name(LEDTable* ledtable, int*x, int*y) { o1( ledtable, x, y); o2( ledtable, x, y); o3( ledtable, x, y); };
-#define DEFINE_PIXELORDER(name, o1, o2) function name(LEDTable* ledtable, int*x, int*y) { o1( ledtable, x, y); o2( ledtable, x, y); };
-
-#define PIXELORDER(order) (&(pixelorder::order))
+template <PixelOrder o1, PixelOrder o2, PixelOrder o3, PixelOrder o4, PixelOrder o5, PixelOrder o6> 
+void PIXELORDER(LEDTable* ledtable, int*x, int*y) 
+{
+  o1(ledtable, x, y);
+  o2(ledtable, x, y);
+  o3(ledtable, x, y);
+  o4(ledtable, x, y);
+  o5(ledtable, x, y);
+  o6(ledtable, x, y);
+};
 
 class Text;
 
@@ -47,13 +86,13 @@ private:
   PixelOrder pixelorder;
   Adafruit_NeoPixel strip;
 
+  void updateColor(uint16_t index, Color color);
 public:
   LEDTable(
     int pin,
     int width,
     int height,
-    // function pointers http://www.cprogramming.com/tutorial/function-pointers.html
-    PixelOrder pixelorder = PIXELORDER(id),
+    PixelOrder pixelorder = PIXELORDER<id>,
     neoPixelType t = NEO_GRB + NEO_KHZ800);
   
   void begin();
@@ -75,7 +114,7 @@ private:
   const char* _text;
   int _width;
   int _height;
-  Color _text_color;
+  Color _color;
   Color _background_color;
 public:
   Text(const char* text, Color text_color = color_white, Color background_color = color_black);
@@ -89,8 +128,8 @@ public:
   
   Color background_color(); // get the background color
   void background_color(Color background_color);
-  Color text_color();
-  void text_color(Color text_color);
+  Color color();
+  void color(Color text_color);
 };
 
                           //x1111122222333334444455555
@@ -101,5 +140,31 @@ extern uint32_t characterToPixels[LETTERS];
 #define getPixels(character) (character < LETTERS ? characterToPixels[character] : UNKNOWN_CHARACTER)
 
 #define RGB(red, green, blue) Color((Color(red) << Color(16)) | (Color(green) << Color(8)) | Color(blue))
+#define RED(rgb) ((rgb & 0xff0000) >> 16)
+#define GREEN(rgb) ((rgb & 0xff00) >> 8)
+#define BLUE(rgb) (rgb & 0xff)
+
+class Stamp
+{
+private:
+  const uint32_t* _lines;
+  uint8_t _width; 
+  uint8_t _height;
+  Color _color;
+  Color _background_color;
+public:
+  Stamp(const uint32_t* lines, uint8_t width, uint8_t height, Color stamp_color = color_white, Color background_color = color_transparent);
+  
+  void stamp(LEDTable* ledtable, int x, int y, Color color = color_default, Color background_color = color_default);
+  
+  const uint8_t height();
+  const uint8_t width();
+  Color background_color(); // get the background color
+  void background_color(Color background_color);
+  Color color();
+  void color(Color stamp_color);
+  const uint32_t* lines();
+  uint32_t line(uint8_t index);
+};
 
 #endif // LEDTABLE_H
