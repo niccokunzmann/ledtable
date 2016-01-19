@@ -140,9 +140,11 @@ extern uint32_t characterToPixels[LETTERS];
 #define getPixels(character) (character < LETTERS ? characterToPixels[character] : UNKNOWN_CHARACTER)
 
 #define RGB(red, green, blue) Color((Color(red) << Color(16)) | (Color(green) << Color(8)) | Color(blue))
-#define RED(rgb) ((rgb & 0xff0000) >> 16)
-#define GREEN(rgb) ((rgb & 0xff00) >> 8)
-#define BLUE(rgb) (rgb & 0xff)
+#define RGBA(red, green, blue, alpha) (RGB(red, green, blue) | (Color(alpha) << Color(24)))
+#define ALPHA(rgb) (Color(rgb) >> 24)
+#define RED(rgb) ((Color(rgb) >> 16) & 0xff)
+#define GREEN(rgb) ((Color(rgb) >> 8) & 0xff)
+#define BLUE(rgb) (Color(rgb) & 0xff)
 
 class Stamp
 {

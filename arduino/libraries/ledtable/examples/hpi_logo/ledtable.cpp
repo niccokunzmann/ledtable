@@ -26,7 +26,7 @@ void LEDTable::updateColor(uint16_t index, Color color)
     return;
   }
   // mixing different transparencies
-  uint16_t transparency = color >> 24;
+  uint16_t transparency = ALPHA(color);
   Color color0 = strip.getPixelColor(index);
   uint16_t red = RED(color) * (256 - transparency) + RED(color0) * transparency;
   uint16_t green = GREEN(color) * (256 - transparency) + GREEN(color0) * transparency;
