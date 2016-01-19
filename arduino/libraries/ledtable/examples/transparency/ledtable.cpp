@@ -9,11 +9,13 @@ LEDTable::LEDTable(int pin,
   strip = Adafruit_NeoPixel(this->width() * this->height(), pin, t);
 }
 
-void LEDTable::begin(){
+void LEDTable::begin()
+{
   strip.begin();
 } 
 
-void LEDTable::show(){
+void LEDTable::show()
+{
   strip.show();
 } 
 
@@ -62,7 +64,6 @@ void LEDTable::fill(int x1, int y1, int x2, int y2, Color color)
     }
   }
 }
-
 
 void LEDTable::print(Text* text, int x, int y, Color text_color, Color background_color) {
   Serial.print("x2: "); Serial.println(x);
