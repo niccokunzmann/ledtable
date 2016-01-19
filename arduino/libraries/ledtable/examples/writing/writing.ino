@@ -2,7 +2,7 @@
 
 #include "ledtable.h"
 
-LEDTable ledtable = LEDTable(6, 12, 12, PIXELORDER(snake));
+LEDTable ledtable = LEDTable(6, 12, 12, PIXELORDER<snake>);
 Text text = Text("Hello, World!", 0x050505, color_black);
 
 void setup() {

@@ -2,7 +2,7 @@
 
 #include "ledtable.h"
 
-LEDTable ledtable = LEDTable(6, 12, 12, PIXELORDER(snake));
+LEDTable ledtable = LEDTable(6, 12, 12, PIXELORDER<snake>);
 
 void setup() {
   ledtable.begin();
