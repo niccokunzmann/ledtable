@@ -19,10 +19,12 @@ Color random_color(uint8_t brightness, uint8_t alpha)
       red = c1;
       green = brightness;
       blue = c2;
+      break;
     case 2:
       red = c1;
       green = c2;
       blue = brightness;
+      break;
   }
   return RGBA(red, green, blue, alpha);
 }
