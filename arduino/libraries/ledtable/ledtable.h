@@ -105,6 +105,13 @@ public:
   
   Color at(int x, int y);
   void ellipse(int x1, int y1, int x2, int y2, Color color);
+  void line(int x1, int y1, int x2, int y2, Color color);
+  void line(int x1, int y1, int x2, int y2, int x3, int y3, Color color);
+  void line(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, Color color);
+  void line(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int x5, int y5, Color color);
+  void line(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int x5, int y5, int x6, int y6, Color color);
+  void line(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int x5, int y5, int x6, int y6, int x7, int y7, Color color);
+  void line(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int x5, int y5, int x6, int y6, int x7, int y7, int x8, int y8, Color color);
   
   void print(Text* text, int x = 0, int y = 0, Color text_color = color_default, Color background_color = color_default);
   
@@ -145,10 +152,10 @@ public:
 extern uint32_t characterToPixels[LETTERS];
 #define getPixels(character) (character < LETTERS ? characterToPixels[character] : UNKNOWN_CHARACTER)
 
-#define RGB(red, green, blue) Color((Color(red) << Color(16)) | (Color(green) << Color(8)) | Color(blue))
+#define RGB(red, green, blue) Color((Color(red & 0xff) << Color(16)) | (Color(green & 0xff) << Color(8)) | Color(blue & 0xff))
 #define RGBA(red, green, blue, alpha) (RGB(red, green, blue) | (Color(alpha) << Color(24)))
 #define ALPHA(rgb) (Color(rgb) >> 24)
-#define TRANSPARENT(rgb, alpha) (((Color(rgb) << 8) >> 8) | (Color(alpha) << 24)) 
+#define transparent(rgb, alpha) (((Color(rgb) << 8) >> 8) | (Color(alpha) << 24)) 
 #define RED(rgb) ((Color(rgb) >> 16) & 0xff)
 #define GREEN(rgb) ((Color(rgb) >> 8) & 0xff)
 #define BLUE(rgb) (Color(rgb) & 0xff)
@@ -175,5 +182,8 @@ public:
   const uint32_t* lines();
   uint32_t line(uint8_t index);
 };
+
+Color random_color(uint8_t brightness = 0xff, uint8_t transparency = 0x00);
+
 
 #endif // LEDTABLE_H

@@ -35,7 +35,7 @@ void setup() {
   ledtable.ellipse(diameter / 4 + diameter / 6, diameter / 6, diameter - diameter / 4 - diameter / 6, diameter / 2 - diameter / 6, color_black);
   if (diameter / 6 > 2)
   {
-    ledtable.ellipse(diameter / 4 + diameter / 6 + 2, diameter / 6 + 2, diameter - diameter / 4 - diameter / 6 - 2, diameter / 2 - diameter / 6 - 2, color_white);
+    ledtable.ellipse(diameter / 4 + diameter / 6 + 1, diameter / 6 + 1, diameter - diameter / 4 - diameter / 6 - 1, diameter / 1 - diameter / 6 - 1, color_white);
   }
   // black circle with white 1
   ledtable.ellipse(diameter / 4, diameter / 2, diameter - diameter / 4, diameter, color_black);

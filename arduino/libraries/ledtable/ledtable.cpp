@@ -50,6 +50,7 @@ void LEDTable::fill(Color color)
 
 void LEDTable::fill(int x, int y, Color color) 
 {
+//  Serial.print("(");Serial.print(x);Serial.print(",");Serial.print(y);Serial.print(")");
   this->pixelorder(this, &x, &y);
   if ( x < 0 || x >= width() || y < 0 || y >= height()) return;
   updateColor(x + y * width(), color);
@@ -106,6 +107,106 @@ void LEDTable::ellipse(int x1, int y1, int x2, int y2, Color color)
       }
     }
   }
+}
+
+void LEDTable::line(int px, int py, int qx, int qy, Color color)
+{
+#define FILL(x, y) if (x_and_y_are_switched) { fill(y, x, color); } else { fill(x, y, color); };
+#define SWITCH(x, y) ;x-= y; y+= x; x = y - x;
+
+  int x_direction = qx > px ? 1 : -1;
+  int y_direction = qy > py ? 1 : -1;
+  int dx = qx - px;
+  int dy = qy - py;
+  bool x_and_y_are_switched = abs(dx) < abs(dy);
+  if (x_and_y_are_switched)
+  {
+    SWITCH(x_direction, y_direction);
+    SWITCH(dx, dy);
+    SWITCH(px, py);
+    SWITCH(qx, qy);
+  }
+  // after this we know that the slope <= 45°
+  if (py == qy)
+  {
+    for (int x = px; x != qx + x_direction; x+= x_direction)
+    {
+      FILL(x, py);
+    }
+    return;
+  }
+  int last_x = px;
+  int last_y = py;
+//  Serial.print("dx: "); Serial.print(dx);
+//  Serial.print("dy: "); Serial.print(dy);
+//  Serial.print("x_direction: "); Serial.print(x_direction);
+//  Serial.print("y_direction: "); Serial.print(y_direction);
+  long last_y_dx = long(py) * long(dx);
+  while (last_x != qx || last_y != qy)
+  {
+    FILL(last_x, last_y);Serial.println();
+    // compute the new positions
+    int new_x = last_x + x_direction;
+    int x1 = new_x;
+    int y1 = last_y;
+    int x2 = new_x;
+    int y2 = last_y + y_direction;
+    long new_y_dx = long(new_x - px) * long(dy) + long(py) * long(dx);
+    int y1_dx = last_y_dx; // = y1 * dx
+    int y2_dx = y2 * dx;
+    //Serial.print("new_x: "); Serial.print(new_x); Serial.print(" new_y: "); Serial.print(new_y);
+    last_x = new_x;
+    if (abs(new_y_dx - y1_dx) < abs(new_y_dx - y2_dx))
+    {
+      last_y = y1;
+      last_y_dx = y1_dx;
+    } else {
+      last_y = y2;
+      last_y_dx = y2_dx;
+    }
+//    Serial.println();
+  }
+  FILL(qx, qy);
+//  Serial.println();
+
+#undef FILL
+#undef SWITCH
+}
+
+// always use lines with number of points dividable by two to create larger lines
+// -> log memory overhead
+void LEDTable::line(int x1, int y1, int x2, int y2, int x3, int y3, Color color)
+{
+  line(x1, y1, x2, y2, color);
+  line(x3, y3, x2, y2, color);
+}
+void LEDTable::line(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, Color color)
+{
+  line(x1, y1, x2, y2, color);
+  line(x3, y3, x2, y2, color);
+  line(x3, y3, x4, y4, color);
+}
+void LEDTable::line(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int x5, int y5, Color color)
+{
+  line(x1, y1, x2, y2, x3, y3, x4, y4, color);
+  line(x4, y4, x5, y5, color);
+}
+void LEDTable::line(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int x5, int y5, int x6, int y6, Color color)
+{
+  line(x1, y1, x2, y2, x3, y3, x4, y4, color);
+  line(x4, y4, x5, y5, color);
+  line(x6, y6, x5, y5, color);
+}
+void LEDTable::line(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int x5, int y5, int x6, int y6, int x7, int y7, Color color)
+{
+  line(x1, y1, x2, y2, x3, y3, x4, y4, color);
+  line(x4, y4, x5, y5, x6, y6, x7, y7, color);
+}
+void LEDTable::line(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int x5, int y5, int x6, int y6, int x7, int y7, int x8, int y8, Color color)
+{
+  line(x1, y1, x2, y2, x3, y3, x4, y4, color);
+  line(x4, y4, x5, y5, x6, y6, x7, y7, color);
+  line(x7, y7, x8, y8, color);
 }
 
 void LEDTable::print(Text* text, int x, int y, Color text_color, Color background_color) {

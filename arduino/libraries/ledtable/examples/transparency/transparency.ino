@@ -26,7 +26,7 @@ void setup () {
       for (int y = 0; y < ledtable.height(); y+= 2)
       {
         Color color = colors[(y/2)%COLORS];
-        ledtable.fill(x, y, x + 1, y + 2, TRANSPARENT(color, transparency));
+        ledtable.fill(x, y, x + 1, y + 2, transparent(color, transparency));
       }
       ledtable.show();
       delay(500);
