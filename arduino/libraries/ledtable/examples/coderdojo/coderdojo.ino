@@ -3,8 +3,7 @@
  */
 
 #include <Adafruit_NeoPixel.h>
-
-#include "ledtable.h"
+#include <ledtable.h>
 
 LEDTable ledtable = LEDTable(6, 12, 12, PIXELORDER<snake>);
 
