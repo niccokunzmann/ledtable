@@ -8,7 +8,7 @@ Learn how to create circles and change the picture based on existing colors.
 Use `for` loops to set pixels on the screen.
 
 ![Hello_World](Hello_World/Hello_World.jpg)  
-Write text on the screen. You can also the text move.
+Write text on the screen. You can also move the text.
 
 ![hpi_logo](hpi_logo/hpi_logo.jpg)  
 With stamps you can put any form in any color onto the screen with only a few lines.
