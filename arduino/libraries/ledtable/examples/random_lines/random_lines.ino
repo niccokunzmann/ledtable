@@ -5,7 +5,7 @@ LEDTable ledtable = LEDTable(6, 12, 12, PIXELORDER<snake>);
 
 void setup() {
   ledtable.begin();
-  ledtable.brightness(10);
+  ledtable.brightness(20);
 }
 
 void loop() {
