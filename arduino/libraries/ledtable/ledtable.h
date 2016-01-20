@@ -160,6 +160,8 @@ extern uint32_t characterToPixels[LETTERS];
 #define GREEN(rgb) ((Color(rgb) >> 8) & 0xff)
 #define BLUE(rgb) (Color(rgb) & 0xff)
 
+Color random_color(uint8_t brightness = 0xff, uint8_t transparency = 0x00);
+
 class Stamp
 {
 private:
@@ -182,8 +184,5 @@ public:
   const uint32_t* lines();
   uint32_t line(uint8_t index);
 };
-
-Color random_color(uint8_t brightness = 0xff, uint8_t transparency = 0x00);
-
 
 #endif // LEDTABLE_H
