@@ -2,6 +2,9 @@ Libraries
 =========
 
 These libraries should be added to your Arduino folder.
+If you just want to have a look around, you can view the [ledtable](ledtable) library.
+
+[![ledtable library](ledtable/VIEWME.jpg)](ledtable#ledtable)
 
 Installation
 ------------
