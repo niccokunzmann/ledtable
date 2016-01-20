@@ -97,15 +97,21 @@ public:
   
   void begin();
   void show();
+  boolean canShow();
   
   void fill(Color color);
   void fill(int x, int y, Color color);
   void fill(int x1, int y1, int x2, int y2, Color color);
   
+  Color at(int x, int y);
+  void ellipse(int x1, int y1, int x2, int y2, Color color);
+  
   void print(Text* text, int x = 0, int y = 0, Color text_color = color_default, Color background_color = color_default);
   
   const int width();
   const int height();
+  uint8_t brightness();
+  void brightness(uint8_t brightness);
 };
 
 class Text
