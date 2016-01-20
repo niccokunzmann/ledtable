@@ -1,0 +1,228 @@
+#######################################
+# Syntax Coloring Map For Adafruit_NeoPixel
+####################################### 
+# Class
+#######################################
+
+LEDTable   KEYWORD1
+Text       KEYWORD1
+Stamp      KEYWORD1
+PixelOrder KEYWORD1
+Color      KEYWORD1
+
+# the include statement
+ledtable KEYWORD1
+
+#######################################
+# Methods and Functions 
+#######################################	
+
+# pixelorder
+id                  KEYWORD2
+snake	              KEYWORD2
+mirror_horizontally	KEYWORD2
+mirror_vertically	  KEYWORD2
+rotate_90	          KEYWORD2
+rotate_180	        KEYWORD2
+rotate_270	        KEYWORD2
+PIXELORDER	        KEYWORD2
+
+# LEDTable
+begin      KEYWORD2
+show       KEYWORD2
+canShow    KEYWORD2
+fill       KEYWORD2
+at         KEYWORD2
+ellipse    KEYWORD2
+line       KEYWORD2
+print      KEYWORD2
+width      KEYWORD2
+height     KEYWORD2
+brightness KEYWORD2
+
+# Text
+printOn          KEYWORD2
+width            KEYWORD2
+height           KEYWORD2
+text             KEYWORD2
+background_color KEYWORD2
+color            KEYWORD2
+
+# characters
+getPixels KEYWORD2
+
+# colors
+RGB          KEYWORD2
+RGBA         KEYWORD2
+ALPHA        KEYWORD2
+transparent  KEYWORD2
+RED          KEYWORD2
+GREEN        KEYWORD2
+BLUE         KEYWORD2
+random_color KEYWORD2
+
+# Stamp
+stamp            KEYWORD2
+height           KEYWORD2
+width            KEYWORD2
+background_color KEYWORD2
+color            KEYWORD2
+lines            KEYWORD2
+line             KEYWORD2
+
+#######################################
+# Constants
+#######################################
+ 
+# characters
+UNKNOWN_CHARACTER LITERAL1
+CHARACTER_HEIGHT  LITERAL1
+LETTERS           LITERAL1
+characterToPixels LITERAL1
+
+# colors
+# html color codes from http://html-color-codes.info/color-names/
+# license: Creative Commons Share Alike
+color_indianred            LITERAL1
+color_lightcoral           LITERAL1
+color_salmon               LITERAL1
+color_darksalmon           LITERAL1
+color_lightsalmon          LITERAL1
+color_crimson              LITERAL1
+color_red                  LITERAL1
+color_firebrick            LITERAL1
+color_darkred              LITERAL1
+color_pink                 LITERAL1
+color_lightpink            LITERAL1
+color_hotpink              LITERAL1
+color_deeppink             LITERAL1
+color_mediumvioletred      LITERAL1
+color_palevioletred        LITERAL1
+color_lightsalmon          LITERAL1
+color_coral                LITERAL1
+color_tomato               LITERAL1
+color_orangered            LITERAL1
+color_darkorange           LITERAL1
+color_orange               LITERAL1
+color_gold                 LITERAL1
+color_yellow               LITERAL1
+color_lightyellow          LITERAL1
+color_lemonchiffon         LITERAL1
+color_lightgoldenrodyellow LITERAL1
+color_papayawhip           LITERAL1
+color_moccasin             LITERAL1
+color_peachpuff            LITERAL1
+color_palegoldenrod        LITERAL1
+color_khaki                LITERAL1
+color_darkkhaki            LITERAL1
+color_lavender             LITERAL1
+color_thistle              LITERAL1
+color_plum                 LITERAL1
+color_violet               LITERAL1
+color_orchid               LITERAL1
+color_fuchsia              LITERAL1
+color_magenta              LITERAL1
+color_mediumorchid         LITERAL1
+color_mediumpurple         LITERAL1
+color_amethyst             LITERAL1
+color_blueviolet           LITERAL1
+color_darkviolet           LITERAL1
+color_darkorchid           LITERAL1
+color_darkmagenta          LITERAL1
+color_purple               LITERAL1
+color_indigo               LITERAL1
+color_slateblue            LITERAL1
+color_darkslateblue        LITERAL1
+color_mediumslateblue      LITERAL1
+color_greenyellow          LITERAL1
+color_chartreuse           LITERAL1
+color_lawngreen            LITERAL1
+color_lime                 LITERAL1
+color_limegreen            LITERAL1
+color_palegreen            LITERAL1
+color_lightgreen           LITERAL1
+color_mediumspringgreen    LITERAL1
+color_springgreen          LITERAL1
+color_mediumseagreen       LITERAL1
+color_seagreen             LITERAL1
+color_forestgreen          LITERAL1
+color_green                LITERAL1
+color_darkgreen            LITERAL1
+color_yellowgreen          LITERAL1
+color_olivedrab            LITERAL1
+color_olive                LITERAL1
+color_darkolivegreen       LITERAL1
+color_mediumaquamarine     LITERAL1
+color_darkseagreen         LITERAL1
+color_lightseagreen        LITERAL1
+color_darkcyan             LITERAL1
+color_teal                 LITERAL1
+color_aqua                 LITERAL1
+color_cyan                 LITERAL1
+color_lightcyan            LITERAL1
+color_paleturquoise        LITERAL1
+color_aquamarine           LITERAL1
+color_turquoise            LITERAL1
+color_mediumturquoise      LITERAL1
+color_darkturquoise        LITERAL1
+color_cadetblue            LITERAL1
+color_steelblue            LITERAL1
+color_lightsteelblue       LITERAL1
+color_powderblue           LITERAL1
+color_lightblue            LITERAL1
+color_skyblue              LITERAL1
+color_lightskyblue         LITERAL1
+color_deepskyblue          LITERAL1
+color_dodgerblue           LITERAL1
+color_cornflowerblue       LITERAL1
+color_mediumslateblue      LITERAL1
+color_royalblue            LITERAL1
+color_blue                 LITERAL1
+color_mediumblue           LITERAL1
+color_darkblue             LITERAL1
+color_navy                 LITERAL1
+color_midnightblue         LITERAL1
+color_cornsilk             LITERAL1
+color_blanchedalmond       LITERAL1
+color_bisque               LITERAL1
+color_navajowhite          LITERAL1
+color_wheat                LITERAL1
+color_burlywood            LITERAL1
+color_tan                  LITERAL1
+color_rosybrown            LITERAL1
+color_sandybrown           LITERAL1
+color_goldenrod            LITERAL1
+color_darkgoldenrod        LITERAL1
+color_peru                 LITERAL1
+color_chocolate            LITERAL1
+color_saddlebrown          LITERAL1
+color_sienna               LITERAL1
+color_brown                LITERAL1
+color_maroon               LITERAL1
+color_white                LITERAL1
+color_snow                 LITERAL1
+color_honeydew             LITERAL1
+color_mintcream            LITERAL1
+color_azure                LITERAL1
+color_aliceblue            LITERAL1
+color_ghostwhite           LITERAL1
+color_whitesmoke           LITERAL1
+color_seashell             LITERAL1
+color_beige                LITERAL1
+color_oldlace              LITERAL1
+color_floralwhite          LITERAL1
+color_ivory                LITERAL1
+color_antiquewhite         LITERAL1
+color_linen                LITERAL1
+color_lavenderblush        LITERAL1
+color_mistyrose            LITERAL1
+color_gainsboro            LITERAL1
+color_lightgrey            LITERAL1
+color_silver               LITERAL1
+color_darkgray             LITERAL1
+color_gray                 LITERAL1
+color_dimgray              LITERAL1
+color_lightslategray       LITERAL1
+color_slategray            LITERAL1
+color_darkslategray        LITERAL1
+color_black                LITERAL1
