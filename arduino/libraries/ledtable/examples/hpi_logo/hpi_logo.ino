@@ -1,3 +1,7 @@
+/*
+ * https://hpi.de
+ */
+ 
 #include <Adafruit_NeoPixel.h>
 
 #include "ledtable.h"
