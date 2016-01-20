@@ -3,7 +3,7 @@
 #define HTML_COLOR_NAMES_H
 
 // html color codes from http://html-color-codes.info/color-names/
-// license: Create Commons Share Alike
+// license: Creative Commons Share Alike
 #define color_indianred 0xCD5C5C
 #define color_lightcoral 0xF08080
 #define color_salmon 0xFA8072
