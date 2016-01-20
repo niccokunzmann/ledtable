@@ -5,4 +5,4 @@ Create games and forms on LED tables using Arduino.
 
 ![](VIEWME.jpg)
 
-- You can [view the examples](examples).
+- You can [view the examples](examples#examples).
