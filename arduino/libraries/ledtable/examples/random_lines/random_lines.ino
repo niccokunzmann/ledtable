@@ -1,11 +1,11 @@
-#include <Adafruit_NeoPixel.h>
 #include <ledtable.h>
 
-LEDTable ledtable = LEDTable(6, 12, 12, PIXELORDER<snake>);
+LEDTable ledtable = LEDTable(6, 20, 15, PIXELORDER<snake>);
 
 void setup() {
   ledtable.begin();
   ledtable.brightness(20);
+  ledtable.line(0,0, ledtable.width(), ledtable.height(), color_blue);
 }
 
 void loop() {
