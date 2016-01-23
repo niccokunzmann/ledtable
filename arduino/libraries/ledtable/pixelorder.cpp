@@ -1,8 +1,10 @@
 #include "ledtable.h"
 
 /*
- * We request that the point x=0, y=0 are inside.
- * Otherwise, height and width will not work.
+ * We suppose that (0,0) is inside and
+ * either (originalHeight() - 1, originalWidth() - 1)
+ *     or (originalWidth() - 1, originalHeight() - 1)
+ * are inside.
  * 
  * use originalWidth() and originalHeight()
  */
