@@ -1,12 +1,20 @@
 #include "ledtable.h"
 
+#define isOutsideTransformed(x, y) (x < 0 || x >= originalWidth() || y < 0 || y >= originalHeight())
+
 LEDTable::LEDTable(int pin,
     int width,
     int height,
     PixelOrder pixelorder,
     neoPixelType t) : _width(width), _height(height), pixelorder(pixelorder) 
 {
-  strip = Adafruit_NeoPixel(this->width() * this->height(), pin, t);
+  /* determine whether the table is rotated by 90° */
+  int x = originalWidth() - 1;
+  int y = originalHeight() - 1;
+  this->pixelorder(this, &x, &y);
+  _widthAndHeightAreSwitched = isOutsideTransformed(x, y);
+  /* create the strip */
+  strip = Adafruit_NeoPixel(this->originalWidth() * this->originalHeight(), pin, t);
 }
 
 void LEDTable::begin()
@@ -52,8 +60,8 @@ void LEDTable::fill(int x, int y, Color color)
 {
 //  Serial.print("(");Serial.print(x);Serial.print(",");Serial.print(y);Serial.print(")");
   this->pixelorder(this, &x, &y);
-  if ( x < 0 || x >= width() || y < 0 || y >= height()) return;
-  updateColor(x + y * width(), color);
+  if (isOutsideTransformed(x, y)) return;
+  updateColor(x + y * originalWidth(), color);
 }
 
 void LEDTable::fill(int x1, int y1, int x2, int y2, Color color) 
@@ -74,8 +82,8 @@ void LEDTable::fill(int x1, int y1, int x2, int y2, Color color)
 Color LEDTable::at(int x, int y)
 {
   this->pixelorder(this, &x, &y);
-  if ( x < 0 || x >= width() || y < 0 || y >= height()) return color_default;
-  return strip.getPixelColor(x + y * width());
+  if (isOutsideTransformed(x, y)) return color_default;
+  return strip.getPixelColor(x + y * originalWidth());
 }
 
 void LEDTable::ellipse(int x1, int y1, int x2, int y2, Color color)
@@ -214,13 +222,25 @@ void LEDTable::print(Text* text, int x, int y, Color text_color, Color backgroun
   text->printOn(this, x, y, text_color, background_color);
 }
 
+const int LEDTable::originalHeight()
+{
+  return _height;
+}
+
+const int LEDTable::originalWidth()
+{
+  return _width;
+}
+
 const int LEDTable::height()
 {
+  if (_widthAndHeightAreSwitched) return _width;
   return _height;
 }
 
 const int LEDTable::width()
 {
+  if (_widthAndHeightAreSwitched) return _height;
   return _width;
 }
 

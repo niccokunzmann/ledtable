@@ -86,6 +86,7 @@ private:
   int _width;
   PixelOrder pixelorder;
   Adafruit_NeoPixel strip;
+  bool _widthAndHeightAreSwitched;
 
   void updateColor(uint16_t index, Color color);
 public:
@@ -120,6 +121,9 @@ public:
   const int height();
   uint8_t brightness();
   void brightness(uint8_t brightness);
+
+  const int originalWidth();
+  const int originalHeight();
 };
 
 class Text
