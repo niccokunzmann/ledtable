@@ -28,6 +28,7 @@ typedef void (*PixelOrder)(LEDTable*,int*,int*);
   void rotate_180(LEDTable* ledtable, int*x, int*y);
   void rotate_270(LEDTable* ledtable, int*x, int*y);
 
+  void flip_xy(LEDTable* ledtable, int*x, int*y);
 
 template <PixelOrder o1> 
 void PIXELORDER(LEDTable* ledtable, int*x, int*y) 

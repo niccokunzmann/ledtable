@@ -42,4 +42,10 @@ void rotate_270(LEDTable* ledtable, int*x, int*y)
   *y = ledtable->width() - *x; // todo: is that correct?
 }
 
+void flip_xy(LEDTable* ledtable, int*x, int*y)
+{
+  int t = *x;
+  *x = *y;
+  *y = t;
+}
 

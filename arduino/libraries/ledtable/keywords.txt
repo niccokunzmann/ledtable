@@ -22,6 +22,7 @@ mirror_vertically	  	KEYWORD2
 rotate_90	          	KEYWORD2
 rotate_180	        	KEYWORD2
 rotate_270	        	KEYWORD2
+flip_xy	            	KEYWORD2
 PIXELORDER	        	KEYWORD2
 
 # LEDTable
