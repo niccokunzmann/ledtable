@@ -252,3 +252,44 @@ void LEDTable::brightness(uint8_t brightness)
 {
   strip.setBrightness(brightness);
 }
+
+const int LEDTable::maxX()
+{
+  return width() - 1;
+}
+
+const int LEDTable::maxY()
+{
+  return height() - 1;
+}
+
+const int LEDTable::minX()
+{
+  return 0;
+}
+
+const int LEDTable::minY()
+{
+  return 0;
+}
+
+const int LEDTable::middleX()
+{
+  return width() / 2;
+}
+
+const int LEDTable::middleY()
+{
+  return height() / 2;
+}
+
+bool LEDTable::isInside(int x, int y)
+{
+  return !isOutside(x, y);
+}
+
+bool LEDTable::isOutside(int x, int y)
+{
+  this->pixelorder(this, &x, &y);
+  return isOutsideTransformed(x, y);
+}

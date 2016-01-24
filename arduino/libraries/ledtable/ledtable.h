@@ -124,6 +124,17 @@ public:
 
   const int originalWidth();
   const int originalHeight();
+  
+  const int minX();
+  const int maxX();
+  const int minY();
+  const int maxY();
+  const int middleX();
+  const int middleY();
+  
+  bool isOutside(int x, int y);
+  bool isInside(int x, int y);
+  
 };
 
 class Text
