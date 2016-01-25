@@ -1,7 +1,35 @@
 #include <ledtable.h>
 #include <EEPROM.h>
-
-/* These constants can change the game */
+/*
+ * Tron - A Game on the LEDTable
+ * 
+ * Pins
+ *     2 - The green cable of the LEDTable
+ *     3, 4   - player 1
+ *     5, 6   - player 2
+ *     7, 8   - player 3
+ *     9, 10  - player 4
+ *     11, 12 - player 5
+ *     13, A0 - player 6
+ *     A1, A2 - player 7
+ *     A3, A4 - player 8
+ *     
+ *   Connect the pins to a switch and connect the switch to ground, GND.
+ *     3______/ ____GND
+ *     
+ * The following constancs can be changed:
+ *   NUMBER_OF_PLAYERS - the number of players (0, 2, 3, 4, 5, 6, 7, 8)
+ *   STEPS_TO_HOLE     - after how many steps there will be a hole in the line
+ *   BACKGROUND_COLOR  - the background color of the LEDTable
+ *   TIME_BETWEEN_ROUNDS_MILLIS          - how long to wait between frames (milliseconds)
+ *   TIME_BETWEEN_ROUNDS_MILLIS_SPEEDUP  - how long to wait between frames if a speedup powerup is taken (milliseconds)
+ *   TIME_BETWEEN_ROUNDS_MILLIS_SLOWDOWN - how long to wait between frames if a slowdown powerup is taken (milliseconds)
+ *   NUMBER_OF_FRAMES_TO_BE_INVULNERABLE - number of steps before the player becomes vulnerable again, if the invulnerability powerup was taken
+ *   EXPECTED_TIME_BETWEEN_POWERUPS      - the expected time to wait between powerups showing up
+ *   SPEEDUP_COLOR      - the color of the speedup powerup
+ *   SLOWDOWN_COLOR     - the color of the slowdown powerup
+ *   INVULNERABLE_COLOR - the color of the invulnerability powerup
+ */
 #define NUMBER_OF_PLAYERS 4
 #define STEPS_TO_HOLE 5
 #define BACKGROUND_COLOR color_black
@@ -14,12 +42,10 @@
 #define SPEEDUP_COLOR color_blue
 #define SLOWDOWN_COLOR color_orange
 #define INVULNERABLE_COLOR color_white
-
-/* These are private constants */
-#define MAXIMUM_NUMBER_OF_PLAYERS 8
-#define EFFECT_COLORS 5
-
 LEDTable ledtable = LEDTable(2, 20, 15, PIXELORDER<flip_xy, snake>);
+
+/* These are private constants. Do not change! */
+#define MAXIMUM_NUMBER_OF_PLAYERS 8
 
 int numberOfPlayers = 0;
 unsigned int frame;
