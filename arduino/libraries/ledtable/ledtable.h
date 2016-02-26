@@ -20,6 +20,24 @@ typedef void (*PixelOrder)(LEDTable*,int*,int*);
   // even row : left to right
   // odd row: right to left
   void snake(LEDTable* ledtable, int*x, int*y);
+
+  /*  0   3   4   7   ...  n-4 n-1 n+0 n+1
+   *  1   2   5   6   ...  n-3 n-2 n+3 n+2
+   * p+2 p+3 p+4 p+7  ___________  n+4 n+5
+   * p+1 p+0 p+5 p+6  _________  | n+7 n+6
+   * p-2 p-1  +--------        | |
+   * p-3 p-4  | +------        | |
+   *          | |              | |  .   .
+   *  .   .   | |              | |  .   .
+   *  .   .   | |              | |  .   .
+   *  .   .   | |              | |
+   *          | |              | |
+   * o+6 o+7  | +--------------+ | m-4 m-3
+   * o+5 o+4  +------------------+ m-1 m-2
+   * o+2 o+3 o-2 o-3  ...  m+6 m+5 m+0 m+1
+   * o+1 o+0 o-1 o-4  ...  m+7 m+4 m+3 m+2
+   */
+  void double_spiral(LEDTable* ledtable, int*x, int*y);
   
   void mirror_horizontally(LEDTable* ledtable, int*x, int*y);
   void mirror_vertically(LEDTable* ledtable, int*x, int*y);
@@ -124,6 +142,7 @@ public:
 
   const int originalWidth();
   const int originalHeight();
+  const bool isOutsideTransformed(const int x, const int y);
   
   const int minX();
   const int maxX();
@@ -134,7 +153,7 @@ public:
   
   bool isOutside(int x, int y);
   bool isInside(int x, int y);
-  
+
 };
 
 class Text

@@ -1,7 +1,5 @@
 #include "ledtable.h"
 
-#define isOutsideTransformed(x, y) (x < 0 || x >= originalWidth() || y < 0 || y >= originalHeight())
-
 LEDTable::LEDTable(int pin,
     int width,
     int height,
@@ -30,6 +28,11 @@ void LEDTable::show()
 boolean LEDTable::canShow()
 {
   return strip.canShow();
+}
+
+const bool LEDTable::isOutsideTransformed(const int x, const int y) 
+{
+  return x < 0 || x >= originalWidth() || y < 0 || y >= originalHeight();
 }
 
 void LEDTable::updateColor(uint16_t index, Color color)
