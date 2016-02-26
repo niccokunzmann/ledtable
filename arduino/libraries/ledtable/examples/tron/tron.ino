@@ -1,3 +1,4 @@
+#include <Adafruit_NeoPixel.h>
 #include <ledtable.h>
 #include <EEPROM.h>
 /*

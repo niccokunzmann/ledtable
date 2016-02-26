@@ -2,6 +2,7 @@
  * https://hpi.de
  */
  
+#include <Adafruit_NeoPixel.h>
 #include <ledtable.h>
 
 LEDTable ledtable = LEDTable(6, 20, 15, PIXELORDER<flip_xy, rotate_180, snake>);

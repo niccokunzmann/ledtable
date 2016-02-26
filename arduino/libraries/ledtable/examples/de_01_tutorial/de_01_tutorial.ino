@@ -10,7 +10,9 @@
  * Die Zeile "#include <ledtable.h>" sagt, dass wir schon 
  * vorgefertigten Quelltext für den LED-Tisch für unser 
  * Programm verwenden wollen.
+ * Alte Ardinosoftware braucht auch die Zeile davor.
  */
+#include <Adafruit_NeoPixel.h>
 #include <ledtable.h>
 
 /*
