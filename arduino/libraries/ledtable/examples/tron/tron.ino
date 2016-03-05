@@ -422,8 +422,8 @@ void wait()
   if (stop < now) 
   {
     offset = - 2 * time_between_frames;
-    now -= offset;
-    stop -= offset;
+    now += offset;
+    stop += offset;
   } else  {
     offset = 0;
   }
