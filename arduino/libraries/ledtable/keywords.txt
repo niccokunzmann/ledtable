@@ -23,6 +23,7 @@ rotate_90	          	KEYWORD2
 rotate_180	        	KEYWORD2
 rotate_270	        	KEYWORD2
 flip_xy	            	KEYWORD2
+double_spiral       	KEYWORD2
 PIXELORDER	        	KEYWORD2
 
 # LEDTable

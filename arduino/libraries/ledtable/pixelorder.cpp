@@ -35,7 +35,7 @@ void rotate_270(LEDTable* ledtable, int*x, int*y)
 {
   int _x = *x;
   *x = ledtable->originalWidth() - *y - 1; // todo: is that correct?
-  *y = *_x;
+  *y = _x;
 }
 
 void rotate_180(LEDTable* ledtable, int*x, int*y) 
@@ -49,7 +49,7 @@ void rotate_90(LEDTable* ledtable, int*x, int*y)
 {
   int _x = *x;
   *x = *y;
-  *y = ledtable->originalHeight() - *_x - 1; // todo: is that correct?
+  *y = ledtable->originalHeight() - _x - 1; // todo: is that correct?
 }
 
 void flip_xy(LEDTable* ledtable, int*x, int*y)
