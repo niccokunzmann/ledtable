@@ -4,30 +4,54 @@ LEDTable::LEDTable(int pin,
     int width,
     int height,
     PixelOrder pixelorder,
-    neoPixelType t) : _width(width), _height(height), pixelorder(pixelorder) 
+    neoPixelType strip_type) : _width(width), _height(height), _pixelorder(pixelorder), strip_type(strip_type), pin(pin)
 {
   /* determine whether the table is rotated by 90° */
   int x = originalWidth() - 1;
   int y = originalHeight() - 1;
-  this->pixelorder(this, &x, &y);
+  pixelOrder(&x, &y);
   _widthAndHeightAreSwitched = isOutsideTransformed(x, y);
   /* create the strip */
-  strip = Adafruit_NeoPixel(this->originalWidth() * this->originalHeight(), pin, t);
+  strip = NULL;
+#ifdef USE_SERIAL_CONNECTION
+  printed_pixels = NULL;
+#endif
+}
+
+LEDTable::~LEDTable()
+{
+  if (strip)
+  {
+    delete strip;
+  }
+#ifdef USE_SERIAL_CONNECTION
+  free(printed_pixels);
+#endif
 }
 
 void LEDTable::begin()
 {
-  strip.begin();
+  if (!strip)
+  {
+    strip = new Adafruit_NeoPixel(this->originalWidth() * this->originalHeight(), pin, strip_type);
+  }
+  if (strip)
+  {
+    strip->begin();
+  }
 } 
 
 void LEDTable::show()
 {
-  strip.show();
+  if (strip)
+  {
+    strip->show();
+  }
 } 
 
 boolean LEDTable::canShow()
 {
-  return strip.canShow();
+  return strip && strip->canShow();
 }
 
 const bool LEDTable::isOutsideTransformed(const int x, const int y) 
@@ -37,19 +61,31 @@ const bool LEDTable::isOutsideTransformed(const int x, const int y)
 
 void LEDTable::updateColor(uint16_t index, Color color)
 {
-  if (color == color_transparent) return;
+  if (!strip || color == color_transparent) return;
+#ifdef USE_SERIAL_CONNECTION
+  if (printed_pixels)
+  {
+    printed_pixels[index] = true;
+  }
+#endif 
   if (!(color & 0xff000000)) 
   {
-    strip.setPixelColor(index, color);
+    strip->setPixelColor(index, color);
     return;
   }
   // mixing different transparencies
   uint16_t transparency = ALPHA(color);
-  Color color0 = strip.getPixelColor(index);
+  Color color0 = strip->getPixelColor(index);
   uint16_t red = (RED(color) * (256 - transparency) + RED(color0) * transparency) >> 8;
   uint16_t green = (GREEN(color) * (256 - transparency) + GREEN(color0) * transparency) >> 8;
   uint16_t blue = (BLUE(color) * (256 - transparency) + BLUE(color0) * transparency) >> 8;
-  strip.setPixelColor(index, RGB(red, green, blue));
+  strip->setPixelColor(index, RGB(red, green, blue));
+}
+
+void LEDTable::updateColorTransformed(int x, int y, Color color)
+{
+  int index = stripeIndexTransformed(x, y);
+  updateColor(index, color);
 }
 
 void LEDTable::fill(Color color) 
@@ -62,9 +98,9 @@ void LEDTable::fill(Color color)
 void LEDTable::fill(int x, int y, Color color) 
 {
 //  Serial.print("(");Serial.print(x);Serial.print(",");Serial.print(y);Serial.print(")");
-  this->pixelorder(this, &x, &y);
+  pixelOrder(&x, &y);
   if (isOutsideTransformed(x, y)) return;
-  updateColor(x + y * originalWidth(), color);
+  updateColorTransformed(x, y, color);
 }
 
 void LEDTable::fill(int x1, int y1, int x2, int y2, Color color) 
@@ -84,9 +120,13 @@ void LEDTable::fill(int x1, int y1, int x2, int y2, Color color)
 
 Color LEDTable::at(int x, int y)
 {
-  this->pixelorder(this, &x, &y);
+  if (!strip)
+  {
+    return color_default;
+  }
+  pixelOrder(&x, &y);
   if (isOutsideTransformed(x, y)) return color_default;
-  return strip.getPixelColor(x + y * originalWidth());
+  return strip->getPixelColor(x + y * originalWidth()) & 0xffffff;
 }
 
 void LEDTable::ellipse(int x1, int y1, int x2, int y2, Color color)
@@ -155,7 +195,7 @@ void LEDTable::line(int px, int py, int qx, int qy, Color color)
   long last_y_dx = long(py) * long(dx);
   while (last_x != qx || last_y != qy)
   {
-    FILL(last_x, last_y);Serial.println();
+    FILL(last_x, last_y);//Serial.println();
     // compute the new positions
     int new_x = last_x + x_direction;
     int x1 = new_x;
@@ -249,11 +289,18 @@ const int LEDTable::width()
 
 uint8_t LEDTable::brightness()
 {
-  return strip.getBrightness();
+  if (!strip)
+  {
+    return 0;
+  }
+  return strip->getBrightness();
 }
 void LEDTable::brightness(uint8_t brightness)
 {
-  strip.setBrightness(brightness);
+  if (strip)
+  {
+    strip->setBrightness(brightness);
+  }
 }
 
 const int LEDTable::maxX()
@@ -293,6 +340,80 @@ bool LEDTable::isInside(int x, int y)
 
 bool LEDTable::isOutside(int x, int y)
 {
-  this->pixelorder(this, &x, &y);
+  pixelOrder(&x, &y);
   return isOutsideTransformed(x, y);
 }
+
+void LEDTable::pixelOrder(int* x, int*y)
+{
+  _pixelorder(this, x, y);
+}
+
+int LEDTable::stripeIndex(int x, int y)
+{
+  pixelOrder(&x, &y);
+  return stripeIndexTransformed(x, y);
+}
+
+int LEDTable::stripeIndexTransformed(int x, int y)
+{
+  return x + y * originalWidth();
+}
+
+
+#ifdef USE_SERIAL_CONNECTION
+void LEDTable::printToSerial(HardwareSerial* serial)
+{
+  if (!printed_pixels)
+  {
+    int number_of_pixels = originalWidth() * originalHeight();
+    printed_pixels = (bool*)(malloc(number_of_pixels));
+    if (printed_pixels) 
+    {
+      memset(printed_pixels, true, number_of_pixels);
+    }
+  }
+  serial->print(SERIAL_COMMAND_CHARACTER);
+  serial->print("p ");
+  serial->println(height());
+  for (int y = 0; y < height(); y++)
+  {
+    for (int x = 0; x < width(); x++)
+    {
+      const int printedPixelsIndex = stripeIndex(x, y);
+      Color color = at(x, y);
+      serial->print("#");
+      if ((!printed_pixels) || (printed_pixels[printedPixelsIndex]))
+      {
+        serial->print(color, HEX);
+        if (printed_pixels)
+        {
+          printed_pixels[printedPixelsIndex] = false;
+        }
+      }
+    }
+    serial->println();
+  }
+}
+
+void LEDTable::printPixelOrderToSerial(HardwareSerial* serial)
+{
+  serial->print(SERIAL_COMMAND_CHARACTER);
+  serial->print("o ");
+  serial->println(this->originalHeight());
+  for (int y = 0; y < originalHeight(); y++)
+  {
+    for (int x = 0; x < originalWidth(); x++)
+    {
+      int stripeIndex = this->stripeIndex(x, y);
+      if (x != 0)
+      {
+        serial->print(" ");
+      }
+      serial->print(stripeIndex);
+    }
+    serial->println();
+  }
+}
+
+#endif

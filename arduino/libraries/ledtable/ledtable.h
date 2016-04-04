@@ -4,7 +4,17 @@
 
 #include <Adafruit_NeoPixel.h>
 #include "html-color-names.h"
-#include "Arduino.h"
+#if (ARDUINO >= 100)
+ #include <Arduino.h>
+#else
+ #include <WProgram.h>
+ #include <pins_arduino.h>
+#endif
+
+#ifdef HAVE_HWSERIAL0
+#define USE_SERIAL_CONNECTION true
+#define SERIAL_COMMAND_CHARACTER "!"
+#endif
 
 typedef uint32_t Color;
 
@@ -102,11 +112,15 @@ class LEDTable
 private:
   int _height;
   int _width;
-  PixelOrder pixelorder;
-  Adafruit_NeoPixel strip;
+  PixelOrder _pixelorder;
+  Adafruit_NeoPixel* strip;
+  neoPixelType strip_type;
+  uint8_t pin;
   bool _widthAndHeightAreSwitched;
+#ifdef USE_SERIAL_CONNECTION
+  bool* printed_pixels;
+#endif
 
-  void updateColor(uint16_t index, Color color);
 public:
   LEDTable(
     int pin,
@@ -114,6 +128,8 @@ public:
     int height,
     PixelOrder pixelorder = PIXELORDER<id>,
     neoPixelType t = NEO_GRB + NEO_KHZ800);
+  
+  ~LEDTable();
   
   void begin();
   void show();
@@ -142,7 +158,6 @@ public:
 
   const int originalWidth();
   const int originalHeight();
-  const bool isOutsideTransformed(const int x, const int y);
   
   const int minX();
   const int maxX();
@@ -153,7 +168,18 @@ public:
   
   bool isOutside(int x, int y);
   bool isInside(int x, int y);
-
+  void pixelOrder(int* x, int* y);
+#ifdef USE_SERIAL_CONNECTION
+  void printToSerial(HardwareSerial* serial = &Serial);
+  void printPixelOrderToSerial(HardwareSerial* serial = &Serial);
+#endif
+  
+  // access the stripe or do not use the pixel order - no need to really use this
+  int stripeIndex(int x, int y); // compute the pixel index on the stripe
+  void updateColor(uint16_t stripIndex, Color color); // update the color at a given strip position
+  int stripeIndexTransformed(int x, int y); // after pixelorder is applied, what is the stripe index
+  void updateColorTransformed(int x, int y, Color color); // after pixelorder is applied, update the color on the stripe
+  const bool isOutsideTransformed(const int x, const int y); // check if point (x, y) is outside
 };
 
 class Text
@@ -187,7 +213,7 @@ public:
 extern uint32_t characterToPixels[LETTERS];
 #define getPixels(character) (character < LETTERS ? characterToPixels[character] : UNKNOWN_CHARACTER)
 
-#define RGB(red, green, blue) Color((Color(red & 0xff) << Color(16)) | (Color(green & 0xff) << Color(8)) | Color(blue & 0xff))
+#define RGB(red, green, blue) Color((Color((red) & 0xff) << Color(16)) | (Color((green) & 0xff) << Color(8)) | Color((blue) & 0xff))
 #define RGBA(red, green, blue, alpha) (RGB(red, green, blue) | (Color(alpha) << Color(24)))
 #define ALPHA(rgb) (Color(rgb) >> 24)
 #define transparent(rgb, alpha) (((Color(rgb) << 8) >> 8) | (Color(alpha) << 24)) 
