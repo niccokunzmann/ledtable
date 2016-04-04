@@ -1,3 +1,6 @@
 .cache
 __pycache__
 *.pyc
+/dist
+/ledtable.egg-info
+/build
