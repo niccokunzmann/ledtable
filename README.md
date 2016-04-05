@@ -7,3 +7,6 @@ LED tables from LED stripes.
 - Use the [Python library](python).
 - See, how to build an [LED table (German)](https://www.youtube.com/watch?v=meTvfm8NTYc)
 - [LEDtable at FFII](http://tinyurl.com/ffiiledtable)
+
+
+LED these tables consist of RGB LED stipes. Using the Arduino you can display animations, games and information. Using the ledtable library you can draw lines, text, rectangles, ovals and forms on your table. There already exist wiring layouts, so that your code can run - with very little adaptation - on any other LED table. 
