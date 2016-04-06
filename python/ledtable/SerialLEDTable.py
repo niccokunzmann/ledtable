@@ -52,6 +52,14 @@ class SerialLEDTable(threading.Thread):
                 self.command_line(line[1:])
 
     def default_line(self, line):
+        if line.endswith(b"\n"):
+            line = line[:-1]
+        if line.endswith(b"\r"):
+            line = line[:-1]
+        try:
+            line = line.decode("ASCII")
+        except UnicodeDecodeError:
+            pass
         print(line)
 
     def command_line(self, line):

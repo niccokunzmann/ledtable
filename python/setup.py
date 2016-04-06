@@ -20,7 +20,7 @@
 '''The setup and build script for the python-twitter library.'''
 
 __author__ = 'niccokunzmann@rambler.ru'
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 
 # The base package metadata to be used by both distutils and setuptools
