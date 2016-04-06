@@ -372,6 +372,7 @@ void LEDTable::printToSerial(HardwareSerial* serial)
     {
       memset(printed_pixels, true, number_of_pixels);
     }
+    serial->println();
   }
   serial->print(SERIAL_COMMAND_CHARACTER);
   serial->print("p ");
@@ -385,7 +386,7 @@ void LEDTable::printToSerial(HardwareSerial* serial)
       serial->print("#");
       if ((!printed_pixels) || (printed_pixels[printedPixelsIndex]))
       {
-        serial->print(color, HEX);
+        serial->print(color & 0xffffff, HEX);
         if (printed_pixels)
         {
           printed_pixels[printedPixelsIndex] = false;

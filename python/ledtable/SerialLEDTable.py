@@ -86,7 +86,11 @@ class SerialLEDTable(threading.Thread):
     def set_pixel(self, x, y, color):
         if not color:
             return # nothing happened
-        color = "#" + color.rjust(6, "0")
+        if len(color) > 6:
+            color = color[-6:]
+        else:
+            color = color.rjust(6, "0")
+        color = "#" + color
         self.set_pixel_on_ledtable(x, y, color)
 
     def set_pixel_on_ledtable(self, x, y, color):
