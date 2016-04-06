@@ -65,7 +65,7 @@ void LEDTable::updateColor(uint16_t index, Color color)
 #ifdef USE_SERIAL_CONNECTION
   if (printed_pixels)
   {
-    printed_pixels[index] = strip->getPixelColor(index) != (color & 0xffffff);
+    printed_pixels[index] = printed_pixels[index] || strip->getPixelColor(index) != (color & 0xffffff);
   }
 #endif 
   if (!(color & 0xff000000)) 
@@ -79,7 +79,7 @@ void LEDTable::updateColor(uint16_t index, Color color)
   uint16_t red = (RED(color) * (256 - transparency) + RED(color0) * transparency) >> 8;
   uint16_t green = (GREEN(color) * (256 - transparency) + GREEN(color0) * transparency) >> 8;
   uint16_t blue = (BLUE(color) * (256 - transparency) + BLUE(color0) * transparency) >> 8;
-  strip->setPixelColor(index, RGB(red, green, blue));
+  strip->setPixelColor(index, red, green, blue);
 }
 
 void LEDTable::updateColorTransformed(int x, int y, Color color)
