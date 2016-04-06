@@ -28,3 +28,13 @@ Color random_color(uint8_t brightness, uint8_t alpha)
   }
   return RGBA(red, green, blue, alpha);
 }
+
+Color mixColors(Color color2, Color color1, uint8_t strength_of_color2)
+{
+  uint16_t m = strength_of_color2;
+  uint16_t alpha = (ALPHA(color1) * (256 - m) + ALPHA(color2) * m) >> 8;
+  uint16_t red = (RED(color1) * (256 - m) + RED(color2) * m) >> 8;
+  uint16_t green = (GREEN(color1) * (256 - m) + GREEN(color2) * m) >> 8;
+  uint16_t blue = (BLUE(color1) * (256 - m) + BLUE(color2) * m) >> 8;
+  return RGBA(red, green, blue, alpha);
+}

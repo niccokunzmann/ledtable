@@ -136,6 +136,7 @@ public:
   boolean canShow();
   
   void fill(Color color);
+  // integer painting
   void fill(int x, int y, Color color);
   void fill(int x1, int y1, int x2, int y2, Color color);
   
@@ -148,9 +149,8 @@ public:
   void line(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int x5, int y5, int x6, int y6, Color color);
   void line(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int x5, int y5, int x6, int y6, int x7, int y7, Color color);
   void line(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int x5, int y5, int x6, int y6, int x7, int y7, int x8, int y8, Color color);
-  
   void print(Text* text, int x = 0, int y = 0, Color text_color = color_default, Color background_color = color_default);
-  
+    
   const int width();
   const int height();
   uint8_t brightness();
@@ -169,6 +169,7 @@ public:
   bool isOutside(int x, int y);
   bool isInside(int x, int y);
   void pixelOrder(int* x, int* y);
+
 #ifdef USE_SERIAL_CONNECTION
   void printToSerial(HardwareSerial* serial = &Serial);
   void printPixelOrderToSerial(HardwareSerial* serial = &Serial);
@@ -222,6 +223,7 @@ extern uint32_t characterToPixels[LETTERS];
 #define BLUE(rgb) (Color(rgb) & 0xff)
 
 Color random_color(uint8_t brightness = 0xff, uint8_t transparency = 0x00);
+Color mixColors(Color color1, Color color2, uint8_t strength_of_color1 = 128);
 
 class Stamp
 {
