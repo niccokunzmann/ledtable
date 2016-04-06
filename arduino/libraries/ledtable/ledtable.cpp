@@ -65,7 +65,7 @@ void LEDTable::updateColor(uint16_t index, Color color)
 #ifdef USE_SERIAL_CONNECTION
   if (printed_pixels)
   {
-    printed_pixels[index] = true;
+    printed_pixels[index] = strip->getPixelColor(index) != (color & 0xffffff);
   }
 #endif 
   if (!(color & 0xff000000)) 
@@ -379,13 +379,19 @@ void LEDTable::printToSerial(HardwareSerial* serial)
   serial->println(height());
   for (int y = 0; y < height(); y++)
   {
+    int skipped_pixels = 0;
     for (int x = 0; x < width(); x++)
     {
+      skipped_pixels++;
       const int printedPixelsIndex = stripeIndex(x, y);
       Color color = at(x, y);
-      serial->print("#");
       if ((!printed_pixels) || (printed_pixels[printedPixelsIndex]))
       {
+        for (int i = skipped_pixels ; i > 0 ; i--)
+        {
+          serial->print("#");
+        }
+        skipped_pixels = 0;
         serial->print(color & 0xffffff, HEX);
         if (printed_pixels)
         {
