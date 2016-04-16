@@ -97,7 +97,6 @@ void LEDTable::fill(Color color)
 
 void LEDTable::fill(int x, int y, Color color) 
 {
-//  Serial.print("(");Serial.print(x);Serial.print(",");Serial.print(y);Serial.print(")");
   pixelOrder(&x, &y);
   if (isOutsideTransformed(x, y)) return;
   updateColorTransformed(x, y, color);
@@ -188,14 +187,10 @@ void LEDTable::line(int px, int py, int qx, int qy, Color color)
   }
   int last_x = px;
   int last_y = py;
-//  Serial.print("dx: "); Serial.print(dx);
-//  Serial.print("dy: "); Serial.print(dy);
-//  Serial.print("x_direction: "); Serial.print(x_direction);
-//  Serial.print("y_direction: "); Serial.print(y_direction);
   long last_y_dx = long(py) * long(dx);
   while (last_x != qx || last_y != qy)
   {
-    FILL(last_x, last_y);//Serial.println();
+    FILL(last_x, last_y);
     // compute the new positions
     int new_x = last_x + x_direction;
     int x1 = new_x;
@@ -205,7 +200,6 @@ void LEDTable::line(int px, int py, int qx, int qy, Color color)
     long new_y_dx = long(new_x - px) * long(dy) + long(py) * long(dx);
     int y1_dx = last_y_dx; // = y1 * dx
     int y2_dx = y2 * dx;
-    //Serial.print("new_x: "); Serial.print(new_x); Serial.print(" new_y: "); Serial.print(new_y);
     last_x = new_x;
     if (abs(new_y_dx - y1_dx) < abs(new_y_dx - y2_dx))
     {
@@ -215,10 +209,8 @@ void LEDTable::line(int px, int py, int qx, int qy, Color color)
       last_y = y2;
       last_y_dx = y2_dx;
     }
-//    Serial.println();
   }
   FILL(qx, qy);
-//  Serial.println();
 
 #undef FILL
 #undef SWITCH
@@ -261,7 +253,6 @@ void LEDTable::line(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int 
 }
 
 void LEDTable::print(Text* text, int x, int y, Color text_color, Color background_color) {
-  Serial.print("x2: "); Serial.println(x);
   text->printOn(this, x, y, text_color, background_color);
 }
 
@@ -358,6 +349,14 @@ int LEDTable::stripeIndex(int x, int y)
 int LEDTable::stripeIndexTransformed(int x, int y)
 {
   return x + y * originalWidth();
+}
+
+uint8_t LEDTable::brightnessAt(int x, int y)
+{
+  Color color = at(x, y);
+  // http://stackoverflow.com/questions/15326911/how-to-access-global-variable-when-there-is-a-local-and-global-conflict
+  extern const uint8_t brightness(const Color color);
+  return brightness(color);
 }
 
 

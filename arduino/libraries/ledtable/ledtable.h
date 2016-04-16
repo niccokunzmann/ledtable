@@ -155,6 +155,7 @@ public:
   const int height();
   uint8_t brightness();
   void brightness(uint8_t brightness);
+  uint8_t brightnessAt(int x, int y);
 
   const int originalWidth();
   const int originalHeight();
@@ -224,6 +225,7 @@ extern uint32_t characterToPixels[LETTERS];
 
 Color random_color(uint8_t brightness = 0xff, uint8_t transparency = 0x00);
 Color mixColors(Color color1, Color color2, uint8_t strength_of_color1 = 128);
+const uint8_t brightness(const Color color);
 
 #define STAMP_DEFAULT_COLOR color_white
 #define STAMP_DEFAULT_BACKGROUND_COLOR color_transparent
@@ -231,18 +233,19 @@ Color mixColors(Color color1, Color color2, uint8_t strength_of_color1 = 128);
 class Stamp
 {
 private:
-  const uint32_t* _lines;
+  uint32_t* _lines;
   uint8_t _width; 
   uint8_t _height;
   Color _color;
   Color _backgroundColor;
 public:
   // create a Stamp from a array of lines. If width is greater than 32, it will be computed based on the given lines, because 32 is the largest width.
-  Stamp(const uint32_t* lines, uint8_t height, uint8_t width = 255, Color stamp_color = STAMP_DEFAULT_COLOR, Color backgroundColor = STAMP_DEFAULT_BACKGROUND_COLOR);
+//  Stamp(const uint32_t* lines, uint8_t height, uint8_t width = 255, Color stamp_color = STAMP_DEFAULT_COLOR, Color backgroundColor = STAMP_DEFAULT_BACKGROUND_COLOR);
   Stamp(const uint32_t line1 = 0, const uint32_t line2 = 0, const uint32_t line3 = 0, const uint32_t line4 = 0, const uint32_t line5 = 0, const uint32_t line6 = 0, const uint32_t line7 = 0, const uint32_t line8 = 0);
+  ~Stamp();
   
   void stamp(LEDTable* ledtable, int x, int y, Color color = color_default, Color backgroundColor = color_default);
-  
+  const bool canStamp();
   const uint8_t height();
   const uint8_t width();
   Color backgroundColor(); // get the background color
@@ -250,8 +253,10 @@ public:
   Color color();
   void color(Color stampColor);
   const uint32_t* lines();
-  uint32_t line(uint8_t index);
+  const uint32_t line(uint8_t index);
   void computeWidth();
+  const bool isSet(int x, int y);
+  const bool isFree(int x, int y);
 };
 
 #endif // LEDTABLE_H

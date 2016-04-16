@@ -38,3 +38,11 @@ Color mixColors(Color color2, Color color1, uint8_t strength_of_color2)
   uint16_t blue = (BLUE(color1) * (256 - m) + BLUE(color2) * m) >> 8;
   return RGBA(red, green, blue, alpha);
 }
+
+const uint8_t brightness(const Color color)
+{
+  uint16_t count = RED(color);
+  count += GREEN(color);
+  count += BLUE(color);
+  return count / 3;
+}

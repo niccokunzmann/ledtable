@@ -1,5 +1,6 @@
 #include "ledtable.h"
 
+/*
 Stamp::Stamp(const uint32_t* lines, uint8_t height, uint8_t width, Color color, Color backgroundColor) : 
     _lines(lines), _width(width), _height(height), _color(color), _backgroundColor(backgroundColor)
 {
@@ -7,7 +8,7 @@ Stamp::Stamp(const uint32_t* lines, uint8_t height, uint8_t width, Color color, 
   {
     computeWidth();
   }
-}
+}*/
 
 Stamp::Stamp(const uint32_t line1, const uint32_t line2, const uint32_t line3, const uint32_t line4, const uint32_t line5, const uint32_t line6, const uint32_t line7, const uint32_t line8)
 {
@@ -50,44 +51,70 @@ Stamp::Stamp(const uint32_t line1, const uint32_t line2, const uint32_t line3, c
     _height = 0;
   }
   uint32_t* lines = (uint32_t*)malloc(sizeof(uint32_t) * _height);
-  if (_height >= 1)
+  if (lines)
   {
-    lines[0] = line1;
+    if (_height >= 1)
+    {
+      lines[0] = line1;
+    }
+    if (_height >= 2)
+    {
+      lines[1] = line2;
+    }
+    if (_height >= 3)
+    {
+      lines[2] = line3;
+    }
+    if (_height >= 4)
+    {
+      lines[3] = line4;
+    }
+    if (_height >= 5)
+    {
+      lines[4] = line5;
+    }
+    if (_height >= 6)
+    {
+      lines[5] = line6;
+    }
+    if (_height >= 7)
+    {
+      lines[6] = line7;
+    }
+    if (_height >= 8)
+    {
+      lines[7] = line8;
+    }
+    _lines = lines;
+    computeWidth();
   }
-  if (_height >= 2)
+  else 
   {
-    lines[1] = line2;
+    _lines = NULL;
+    _width = 0;
+    _height = 0;
   }
-  if (_height >= 3)
+}
+
+Stamp::~Stamp()
+{
+  if (_lines)
   {
-    lines[2] = line3;
+    free(_lines);
   }
-  if (_height >= 4)
-  {
-    lines[3] = line4;
-  }
-  if (_height >= 5)
-  {
-    lines[4] = line5;
-  }
-  if (_height >= 6)
-  {
-    lines[5] = line6;
-  }
-  if (_height >= 7)
-  {
-    lines[6] = line7;
-  }
-  if (_height >= 8)
-  {
-    lines[7] = line8;
-  }
-  _lines = lines;
-  computeWidth();
+}
+
+const bool Stamp::canStamp()
+{
+  return _lines;
 }
 
 void Stamp::stamp(LEDTable* ledtable, int x0, int y, Color color, Color backgroundColor)
 {
+  if (!_lines)
+  {
+    return;
+  }
   if (color == color_default) 
   { 
     color = this->color();
@@ -137,8 +164,12 @@ const uint32_t* Stamp::lines()
 {
   return _lines;
 }
-uint32_t Stamp::line(uint8_t index)
+const uint32_t Stamp::line(uint8_t index)
 {
+  if (!_lines)
+  {
+    return 0;
+  }
   return _lines[index];
 }
 
@@ -160,4 +191,27 @@ void Stamp::computeWidth()
     }
   }
   _width = max_width;
+}
+
+const bool Stamp::isSet(int x, int y)
+{
+  if (!_lines)
+  {
+    return false;
+  }
+  if (y < 0 || x < 0 || x >= width() || y >= height())
+  {
+    return false;
+  }
+  uint32_t line = _lines[y];
+  return (line >> x) & 1;
+}
+
+const bool Stamp::isFree(int x, int y)
+{
+  if (!_lines)
+  {
+    return false;
+  }
+  return !isSet(x, y);
 }

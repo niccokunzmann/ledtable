@@ -203,17 +203,11 @@ void Text::printOn(LEDTable* ledtable, int x0, int y0, Color text_color, Color b
   int x = x0;
   _width = 0;
   _height = 0;
-  Serial.print("x: "); Serial.println(x);
   for (int i = 0; text()[i]; i++) 
   {
-    //Serial.print("i: "); Serial.print(int(i));
-    //ledtable->fill(x, y, color_green);
     char character = text()[i];
     int character_width = width(character);
-    //Serial.print("character: "); Serial.print(int(character));
-    //Serial.print(" character_width: "); Serial.print(character_width);
     if (character_width == 0) {
-      //ledtable->fill(x, y + 1, color_violet);
       // '\n' or '\r'
       y += CHARACTER_HEIGHT + 1;
       if (x - x0 > _width) _width = x - x0;
@@ -222,22 +216,17 @@ void Text::printOn(LEDTable* ledtable, int x0, int y0, Color text_color, Color b
       uint32_t pixels = getPixels(character);
       uint32_t pixel_index = 1;
       pixel_index <<= (character_width * CHARACTER_HEIGHT - 1);
-      //Serial.print(" INDEX: "); Serial.println(pixel_index);
       while (pixel_index)
       { 
         for (int c = 0; c < CHARACTER_HEIGHT; c++)
         {
-          //Serial.print("x: "); Serial.print(x); Serial.print(" y: "); Serial.print(y); Serial.print(" b: ");
           if (pixels & pixel_index) {
             ledtable->fill(x, y + c, text_color);
-            //Serial.println("1");
           } else {
-            //Serial.println("0");
             ledtable->fill(x, y + c, backgroundColor);
           }
           pixel_index >>= 1;
         }
-        //ledtable->fill(x, y + 2, color_red);
         x++;
       }
       for (int c = 0; c < CHARACTER_HEIGHT; c++) 
