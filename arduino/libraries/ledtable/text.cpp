@@ -152,8 +152,8 @@ uint32_t characterToPixels[LETTERS] = {
     0b100010001000001000100 /*  '~'   */,
 };
 
-Text::Text(const char* text, Color color, Color background_color) : 
-    _text(text), _color(color), _background_color(background_color)
+Text::Text(const char* text, Color color, Color backgroundColor) : 
+    _text(text), _color(color), _backgroundColor(backgroundColor)
 {
   _width = -1;
   _height = -1;
@@ -191,13 +191,13 @@ const char* Text::text()
   return _text;
 };
 
-void Text::printOn(LEDTable* ledtable, int x0, int y0, Color text_color, Color background_color)
+void Text::printOn(LEDTable* ledtable, int x0, int y0, Color text_color, Color backgroundColor)
 {
   if (text_color == color_default) {
     text_color = this->color();
   }
-  if (background_color == color_default) {
-    background_color = this->background_color();
+  if (backgroundColor == color_default) {
+    backgroundColor = this->backgroundColor();
   }
   int y = y0;
   int x = x0;
@@ -233,7 +233,7 @@ void Text::printOn(LEDTable* ledtable, int x0, int y0, Color text_color, Color b
             //Serial.println("1");
           } else {
             //Serial.println("0");
-            ledtable->fill(x, y + c, background_color);
+            ledtable->fill(x, y + c, backgroundColor);
           }
           pixel_index >>= 1;
         }
@@ -242,7 +242,7 @@ void Text::printOn(LEDTable* ledtable, int x0, int y0, Color text_color, Color b
       }
       for (int c = 0; c < CHARACTER_HEIGHT; c++) 
       {
-        ledtable->fill(x, y + c, background_color);
+        ledtable->fill(x, y + c, backgroundColor);
       }
       x++;
     }
@@ -261,14 +261,14 @@ void Text::color(Color color)
   _color = color;
 };
 
-Color Text::background_color()
+Color Text::backgroundColor()
 {
-  return _background_color;
+  return _backgroundColor;
 };
 
-void Text::background_color(Color background_color)
+void Text::backgroundColor(Color backgroundColor)
 {
-  _background_color = background_color;
+  _backgroundColor = backgroundColor;
 };
 
 

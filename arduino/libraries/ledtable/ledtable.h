@@ -149,7 +149,7 @@ public:
   void line(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int x5, int y5, int x6, int y6, Color color);
   void line(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int x5, int y5, int x6, int y6, int x7, int y7, Color color);
   void line(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int x5, int y5, int x6, int y6, int x7, int y7, int x8, int y8, Color color);
-  void print(Text* text, int x = 0, int y = 0, Color text_color = color_default, Color background_color = color_default);
+  void print(Text* text, int x = 0, int y = 0, Color text_color = color_default, Color backgroundColor = color_default);
     
   const int width();
   const int height();
@@ -190,19 +190,19 @@ private:
   int _width;
   int _height;
   Color _color;
-  Color _background_color;
+  Color _backgroundColor;
 public:
-  Text(const char* text, Color text_color = color_white, Color background_color = color_black);
+  Text(const char* text, Color text_color = color_white, Color backgroundColor = color_black);
   
-  void printOn(LEDTable* ledtable, int x = 0, int y = 0, Color text_color = color_default, Color background_color = color_default);
+  void printOn(LEDTable* ledtable, int x = 0, int y = 0, Color text_color = color_default, Color backgroundColor = color_default);
   int width();
   const int width(char character);
   int height();
   const int height(char character);
   const char* text();
   
-  Color background_color(); // get the background color
-  void background_color(Color background_color);
+  Color backgroundColor(); // get the background color
+  void backgroundColor(Color backgroundColor);
   Color color();
   void color(Color text_color);
 };
@@ -225,6 +225,9 @@ extern uint32_t characterToPixels[LETTERS];
 Color random_color(uint8_t brightness = 0xff, uint8_t transparency = 0x00);
 Color mixColors(Color color1, Color color2, uint8_t strength_of_color1 = 128);
 
+#define STAMP_DEFAULT_COLOR color_white
+#define STAMP_DEFAULT_BACKGROUND_COLOR color_transparent
+
 class Stamp
 {
 private:
@@ -232,20 +235,23 @@ private:
   uint8_t _width; 
   uint8_t _height;
   Color _color;
-  Color _background_color;
+  Color _backgroundColor;
 public:
-  Stamp(const uint32_t* lines, uint8_t width, uint8_t height, Color stamp_color = color_white, Color background_color = color_transparent);
+  // create a Stamp from a array of lines. If width is greater than 32, it will be computed based on the given lines, because 32 is the largest width.
+  Stamp(const uint32_t* lines, uint8_t height, uint8_t width = 255, Color stamp_color = STAMP_DEFAULT_COLOR, Color backgroundColor = STAMP_DEFAULT_BACKGROUND_COLOR);
+  Stamp(const uint32_t line1 = 0, const uint32_t line2 = 0, const uint32_t line3 = 0, const uint32_t line4 = 0, const uint32_t line5 = 0, const uint32_t line6 = 0, const uint32_t line7 = 0, const uint32_t line8 = 0);
   
-  void stamp(LEDTable* ledtable, int x, int y, Color color = color_default, Color background_color = color_default);
+  void stamp(LEDTable* ledtable, int x, int y, Color color = color_default, Color backgroundColor = color_default);
   
   const uint8_t height();
   const uint8_t width();
-  Color background_color(); // get the background color
-  void background_color(Color background_color);
+  Color backgroundColor(); // get the background color
+  void backgroundColor(Color backgroundColor);
   Color color();
-  void color(Color stamp_color);
+  void color(Color stampColor);
   const uint32_t* lines();
   uint32_t line(uint8_t index);
+  void computeWidth();
 };
 
 #endif // LEDTABLE_H
