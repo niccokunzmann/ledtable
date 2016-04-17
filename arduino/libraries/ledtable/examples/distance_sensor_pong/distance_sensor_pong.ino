@@ -7,12 +7,13 @@
  * 
  * You can change the PLAYER_1_TRIGGER_PIN, ... variables to match the pins where you stick the distance sensors in.
  * LED_STRIPE_PIN is the pin where the LED table is connected to.
+ * USE_SERIAL_CONNECTION_INSTEAD_OF_PIN - set to true if yoou do not have an led table and want to program via Python/Serial
  */
 
-#define PLAYER_1_TRIGGER_PIN 7
-#define PLAYER_1_ECHO_PIN 8
-#define PLAYER_2_TRIGGER_PIN 9
-#define PLAYER_2_ECHO_PIN 10
+#define PLAYER_1_ECHO_PIN 7
+#define PLAYER_1_TRIGGER_PIN 8
+#define PLAYER_2_ECHO_PIN 9
+#define PLAYER_2_TRIGGER_PIN 10
 
 #define LED_STRIPE_PIN 6
 LEDTable ledtable = LEDTable(LED_STRIPE_PIN, 20, 14, PIXELORDER<double_spiral>);

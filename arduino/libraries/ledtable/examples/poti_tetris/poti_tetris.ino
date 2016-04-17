@@ -1,5 +1,6 @@
 #include <Adafruit_NeoPixel.h>
 #include <ledtable.h>
+#include "pitches.h"
 
 /* POSITION_PIN - attach a potentiometer to that pin
  * ROTATION_PIN - attach a potentiometer to that pin
@@ -409,6 +410,6 @@ void loop() {
   update_falling();
   update_rotation();
   update_position();
-  ledtable.printToSerial();
-  //ledtable.show();
+  //ledtable.printToSerial();
+  ledtable.show();
 }

@@ -23,6 +23,14 @@ Create lines of random color at random positions.
 You can use transparency to mix colors.
 
 [![tron](tron/tron.jpg)](tron#tron)  
-You can create games.
+You can create games such as tron.
+
+[![poti_tetris](poti_tetris/poti_tetris.png)](poti_tetris#poti_tetris)  
+You can play old pixel Tetris.
+
+[![distance_sensor_pong](distance_sensor_pong/distance_sensor_pong.png)](distance_sensor_pong#distance_sensor_pong)  
+You can write games like Pong.
+
+
 
 
