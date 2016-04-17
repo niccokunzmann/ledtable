@@ -49,6 +49,8 @@ Temporary Items
 
 # my ignores
 
-videos
+/videos
 ffii.odt
 *.odt#
+~*
+/building
