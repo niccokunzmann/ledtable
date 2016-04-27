@@ -406,10 +406,10 @@ void LEDTable::printPixelOrderToSerial(HardwareSerial* serial)
 {
   serial->print(SERIAL_COMMAND_CHARACTER);
   serial->print("o ");
-  serial->println(this->originalHeight());
-  for (int y = 0; y < originalHeight(); y++)
+  serial->println(this->height());
+  for (int y = 0; y < height(); y++)
   {
-    for (int x = 0; x < originalWidth(); x++)
+    for (int x = 0; x < width(); x++)
     {
       int stripeIndex = this->stripeIndex(x, y);
       if (x != 0)
