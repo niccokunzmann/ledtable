@@ -16,3 +16,4 @@ Related Work
 
 - http://www.pjrc.com/teensy/td_libs_OctoWS2811.html
 - http://www.trafopop.com/
+- http://www.it-gecko.de/100pixel-rgb-led-tisch-interaktiv-touch.html
